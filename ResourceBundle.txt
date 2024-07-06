@@ -1,0 +1,59 @@
+1. RESOURCE BUNDLE
+- ResourceBundle adalah class yang digunakan sebagai bundle yang berisikan data yang bisa berubah sesuai dengan Locale yang dipilih
+- ResourceBundle cocok digunakan untuk menyimpan data I18N, dimana semua data akan disimpan dalam sebuah properties file
+
+2. PROPERTIES FILE
+- Saat kita menggunakan ResourceBundle, kita perlu membuat properties file dalam resources sebagai tempat untuk ResourceBundle melakukan lookup data
+- Misal kita membuat file properties dengan nama message.properties di dalam resources
+- untuk membuat file resources klik kanan difolder -> new -> Directory -> pilih resources lalu nama tulis nama filenya
+
+contoh kode message.properties
+hello=HELLO
+goodbye=GOOD BYE
+
+note = ini menganut konsep key : value
+
+untuk mengakses membuat resourceBundle
+var resource = ResourceBundle.getBundle(baseName)
+
+//untuk mengakses
+sout(resource.getString(key)) // hasilnya kita akan dapat valuenya
+sout(resource.getString(key))
+
+
+note : pastikan file resources telah kita buat
+        untuk isi parameter tidak perlu memakai extension filenya
+
+
+3. I18N di ResourceBundle
+- sebelumnya kita hanya menggunakan ResourceBundle sebagai object untuk mengambil data dari properties, kali seperti ini tidak ada bedanya dengan class Properties
+- yang membedakan, dalam ResourceBundle kita bisa melakukan I18N
+- namun untuk melakukan itu kita perlu menyediakan properties file sesuai dengan Localenya
+- misal jika kita ingin mendukung bahasa id dan negara ID, maka kita perlu membuat file message_id_ID.properties
+- fileya harus diawali dengan message karena sebelumnya kita menggunakan nama file message.properties
+
+contoh membuat file resource baru dengan nama message_id_ID.properties
+hello=HALO
+goodbye=SELAMAT TINGGAL
+
+KODE I18N di ResourceBundle
+Locale locale = new Locale(String language, String country)// locale yang mau kita paksa
+ResourceBundle resource = ResourceBunlde.getBundle(baseName,locale)// param kedua adalah nama object localenya
+
+atau bisa langsung menuliskan nama resourcesnya di dalam baseNamenya
+ResourceBundle resource =  ResourceBunle.getBundle(message_id_ID)
+
+
+4. JIKA TIDAK ADA PROPERTIES UNTUK Locale
+- apa yang terjadi jika ada Locale yang tidak tersedia dalam file propertiesnya
+- misal kita akan menggunakan Locale en_US.properties, sedangkan tidak ada file message_en_US.properties nya
+- jika itu terjadi secara default ResourceBundle akan menggunakan message.properties
+
+5. AMAKANKAH MEMBUAT RESOURCEBUNDLE TERUS?
+- cara membuat ResourceBundle menggunakan static method getBundle()
+- di dalam implementasi getBundle() telah diimplementasikan caching, artinya jika kita mengambil resource yang sama dengan locale yagn sama, tidak akan dibuat ulang melainkan akan menggunakan ResourceBundle yang sudah tersedia
+- hal ini menjadi aman jika kita selalu membuat ResourceBundle terus menerus
+
+
+
+NOTE = RESOURCEBUNDLE HANYA UNTUK TIPE DATA STRING, JIKA DATE ATAU TIME UNTUK MENJALANKAN I18N MEMAKASI CLASS SENDIRI
